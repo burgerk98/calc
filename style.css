@@ -10,39 +10,66 @@ body {
 
 .calc {
   /* width: 40%; */
-  padding: 10px;
-  border: 1px solid #000;
+  padding: 32px 20px 28px 20px;
+  border: none;
+  background-color: #feffef;
+  border-radius: 25px;
+  box-shadow: 1px 1px 3px 1px #c6c2a3a6, -1px -1px 30px 1px #fff,
+    -1px -1px 4px 1px #c6c2a355 inset, 1px 1px 20px 1px #fff inset;
   /* display: flex; */
   /* flex-direction: column; */
 }
 
-.display {
-  height: 60px;
-  border: 1px solid #000;
-  margin-bottom: 10px;
+.display-container {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  border-radius: 20px;
+  border: none;
+  background-color: #aad8dc;
+  box-shadow: 1px 1px 1px 1px #a3c3c6a6 inset, -1px -1px 0px 0px #fff inset,
+    -1px -1px 3px 2px #a3c6c355, 1px 1px 1px 1px #fff;
+  margin-bottom: 17px;
   width: 100%;
   box-sizing: border-box;
-  text-align: end;
-  padding: 13px;
+}
+
+.history {
+  color: #9d9d9d;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 13px 10px 0 13px;
+}
+.display {
+  background-color: transparent;
+  padding: 10px 15px 15px 15px;
   font-size: 23px;
+  border: none;
+  outline: none;
+  text-align: end;
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  background-color: aqua;
+  gap: 5px;
 }
 
 .button {
+  background-color: #fb6058;
+  box-shadow: 1px 1px 0px 0.5px #b85a56b8, -1px -1px 0px 0px #fff,
+    -1px -1px 0px 0.3px #b8595672 inset, 1px 1px 2px 0px #ffffffb0 inset;
+  border-radius: 40px;
+  border: none;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #000;
-  width: 25%;
-  height: 50px;
+  width: calc(25% - 5px);
+  height: 56px;
   cursor: pointer;
-  transition: all ease-in 0.1s;
+  transition: all ease-in 5ms;
   /* 드래그 방지 */
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -50,12 +77,14 @@ body {
   user-select: none;
 }
 .zero {
-  width: 50%;
+  width: calc(50% - 5px);
 }
 
 .button:hover {
-  background-color: #fff;
+  background-color: #ff9994;
 }
 .button:active {
-  background-color: red;
+  box-shadow: 1px 1px 0px 0.5px #b85a56b8 inset, -1px -1px 0px 0px #fff inset,
+    -1px -1px 0px 0.3px #b8595672, 1px 1px 2px 0px #ffffffb0;
+  background-color: #f13930;
 }

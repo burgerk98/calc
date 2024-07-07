@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const buttons = document.querySelectorAll(".button");
   const display = document.querySelector(".display");
+  const displayHistory = document.querySelector(".history");
 
   let firstOperand = null;
   let operator = null;
@@ -10,9 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (operator) {
       case "/":
         if (secondOperand === 0) {
-          return "0으로 나눌 수 없슈";
+          alert("0으로 나눌 수 없슈");
+          return firstOperand;
+        } else {
+          return firstOperand / secondOperand;
         }
-        return firstOperand / secondOperand;
       case "*":
         return firstOperand * secondOperand;
       case "-":
@@ -26,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
-      //   console.log(button.textContent);
       const buttonText = button.textContent;
 
       if (buttonText === "=") {
@@ -37,13 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
           firstOperand = result;
           operator = null;
           isNewNumber = true;
-        }
-      }
 
-      if (button.classList.contains("number")) {
+          displayHistory.value = display.value;
+        }
+      } else if (button.classList.contains("number")) {
         if (isNewNumber) {
-          display.value += buttonText;
-          operator = null;
+          display.value = buttonText;
+          isNewNumber = false;
         } else {
           if (display.value === "0" || operator !== null) {
             display.value = buttonText;
@@ -51,26 +53,41 @@ document.addEventListener("DOMContentLoaded", function () {
             display.value += buttonText;
           }
         }
+        displayHistory.value += buttonText;
       } else if (buttonText === "." && !display.value.includes(".")) {
         display.value += buttonText;
+        displayHistory.value += buttonText;
+        isNewNumber = false;
       } else if (buttonText === "C") {
         display.value = "0";
         firstOperand = null;
         operator = null;
         isNewNumber = false;
+        displayHistory.value = "";
+      } else if (buttonText === "±") {
+        display.value = parseFloat(display.value) * -1;
+        displayHistory.value = display.value;
+      } else if (buttonText === "%") {
+        display.value = parseFloat(display.value) / 100;
+        displayHistory.value += "%";
+        isNewNumber = true;
       } else if (button.classList.contains("operator")) {
         if (firstOperand === null) {
           firstOperand = parseFloat(display.value);
-          operator = buttonText;
-          isNewNumber = false;
-          console.log("firstOperand:", firstOperand);
-          console.log("operator:", operator);
-        } else {
-          display.value = buttonText;
-          firstOperand = parseFloat(display.value);
-          operator = null;
-          isNewNumber = true;
+        } else if (operator !== null) {
+          const secondOperand = parseFloat(display.value);
+          const result = calc(firstOperand, operator, secondOperand);
+          display.value = result;
+          firstOperand = result;
         }
+        operator = buttonText;
+        isNewNumber = true;
+        displayHistory.value += ` ${buttonText} `;
+      }
+
+      // /0을 누르면 히스토리에선 지워지게 설정. /\/\s*0/g정규식이라고함
+      if (operator === "/" && parseFloat(display.value) === 0) {
+        displayHistory.value = displayHistory.value.replace(/\/\s*0/g, "");
       }
     });
   });
